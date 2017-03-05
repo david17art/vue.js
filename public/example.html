@@ -8,15 +8,31 @@
 	<script src="vue.js"></script>
 </head>
 <body id="body">
-	<h1>Bienvenido, {{name}}</h1>
+	<template v-if="name != '' && gender != ''">
+		<h1 v-if="gender">{{gender == 'm' ? 'Bienvenido' : 'Bienvenida'}}, {{name}}</h1>
+		<p>Espero que disfrute tu visita</p>
+	</template>
+	<p v-if="name == '' && gender == ''">Por favor indica tu <span v-if="!name">nombre y </span><span v-if="!gender">genero</span></p>
+	
+	
+	<!-- <h1 v-if="name">Bienvenido, {{name}}</h1> -->
+	<!--<h1 v-show="name">Bienvenido, {{name}}</h1> -->
 	<input type="text" v-model="name" class="form-control">
+	<select class="form-control" v-model="gender" id="">
+		<option value="m">Masculino</option>
+		<option value="f">Femenido</option>
+	</select>
+	<p v-if="name.length < 3" class="alert alert-danger">
+		Nombre muy corto
+	</p>
 
 	<script type="text/javascript">
 
 		new Vue({
 			el: "#body",
 			data: {
-				name: "David"
+				name: "",
+				gender: ""
 			}
 		});
 
