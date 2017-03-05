@@ -8,7 +8,8 @@
 	<script src="vue.js"></script>
 </head>
 <body id="body">
-	<template v-if="name != '' && gender != ''">
+	<div class="container">
+		<template v-if="name != '' && gender != ''">
 		<h1 v-if="gender">{{gender == 'm' ? 'Bienvenido' : 'Bienvenida'}}, {{name}}</h1>
 		<p>Espero que disfrute tu visita</p>
 	</template>
@@ -22,9 +23,22 @@
 		<option value="m">Masculino</option>
 		<option value="f">Femenido</option>
 	</select>
-	<p v-if="name.length < 3" class="alert alert-danger">
-		Nombre muy corto
+	<p>
+		¿Cuantos años de experiencia tienes con php?
+		Respuesta <strong>{{ years_php }}</strong>
+		<button type="button" :class="{btn: true, 'btn-danger': years_php > 10}" :style="getAddYearButtonStyles()" @click="addYear">+</button>
+		<button type="button" v-bind:disabled="years_php == 0" class="btn" @click="subYear"> - </button>
 	</p>
+
+	<p v-show="name">
+		<button type="submit" class="btn btn-primary">
+			Registrate
+		</button>
+		<button class="btn btn-primary" @click="signUp(true, $event)">
+			Regístrate y sal del sistema
+		</button>
+	</p>
+	</div>
 
 	<script type="text/javascript">
 
@@ -32,7 +46,28 @@
 			el: "#body",
 			data: {
 				name: "",
-				gender: ""
+				gender: "",
+				years_php: 0
+			},
+			methods: {
+				signUp: function(logout, event) {
+					event.preventDefault();
+					alert(this.name + ", Por favor espera mientras te registramos");
+					if (logout) {
+						alert("Saliendo del sistema");
+					}
+				},
+				addYear: function(){
+					this.years_php++;
+				},
+				subYear: function(){
+					//if (years_php > 0) {
+						this.years_php--;
+					//}
+				},
+				getAddYearButtonStyles: function() {
+					return  {'font-size': 10+this.years_php+'px'}
+				}
 			}
 		});
 
