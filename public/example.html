@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<script src="vue.js"></script>
+</head>
+<body id="body">
+	<h1>Bienvenido, {{name}}</h1>
+	<input type="text" v-model="name" class="form-control">
+
+	<script type="text/javascript">
+
+		new Vue({
+			el: "#body",
+			data: {
+				name: "David"
+			}
+		});
+
+	</script>
+</body>
+</html>
