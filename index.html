@@ -19,10 +19,14 @@
 	<!-- <h1 v-if="name">Bienvenido, {{name}}</h1> -->
 	<!--<h1 v-show="name">Bienvenido, {{name}}</h1> -->
 	<input type="text" v-model="name" class="form-control">
-	<select class="form-control" v-model="gender" id="">
-		<option value="m">Masculino</option>
-		<option value="f">Femenido</option>
-	</select>
+	<label for="">
+		Mujer:
+		<input type="radio" v-model="gender" value="f">
+	</label>
+	<label for="">
+		Hombre:
+		<input type="radio" v-model="gender" value="m">
+	</label>
 	<template v-for="tech in techs">
 		<years_exp  :years.sync="tech.years" :tech="tech.name"></years_exp>
 	</template>
@@ -124,7 +128,7 @@
 			el: "#body",
 			data: {
 				name: "",
-				gender: "",
+				gender: "m",
 				spanish: true,
 				techs: [
 					{name:'PHP',years: 0,type: 'backend'},

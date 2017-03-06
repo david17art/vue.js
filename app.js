@@ -6,6 +6,7 @@ function findById(items,id){
 	}
 	return null;
 }
+var URL = "http://localhost:8000/api"
 Vue.filter('Category',function(id){
 				var category = findById(this.categories,id);
 				 if (category != null) {
@@ -30,9 +31,31 @@ Vue.component('note-row', {
     },
     methods: {
         remove: function () {
+        	this.$http.get(URL+"/nota/"+this.note.id)	
+			.then(response => {
+				console.info(response.data)
+				this.notes = response.data;
+			})
             this.$parent.notes.$remove(this.note);
         },
         edit: function () {
+        	this.$http.put(URL+"/nota/"+this.note.id, this.new_note).then(response => {
+
+			    // get status
+			    response.status;
+
+			    // get status text
+			    response.statusText;
+
+			    // get 'Expires' header
+			    response.headers.get('Expires');
+
+			    // get body data
+			    this.someData = response.body;
+
+			  }, response => {
+			    // error callback
+			  });
             this.editing = true;
         },
         update: function () {
@@ -49,20 +72,7 @@ var vm = new Vue({
 			note: '',
 			category_id: ''
 		},
-		notes: [
-			{
-				note: 'Laravel 5.1 es LTS',
-				category_id:'1'
-			},
-			{
-				note: 'v-for es la directiva que utilizamos para iterar una lista',
-				category_id:'2'
-			},
-			{
-				note: '@click se utiliza como alias v-on:click',
-				category_id:'2'
-			}
-		],
+		notes: [],
 		categories: [
 			{
 				id:1,
@@ -76,13 +86,38 @@ var vm = new Vue({
 	},
 	methods:{
 		createNote: function(){
-			this.notes.push(this.new_note);
-			this.new_note = {note:'',category_id:''};
+			this.$http.post(URL+"/nota", this.new_note).then(response => {
+
+			    // get status
+			    response.status;
+
+			    // get status text
+			    response.statusText;
+
+			    // get 'Expires' header
+			    response.headers.get('Expires');
+
+			    // get body data
+			    this.someData = response.body;
+
+			  }, response => {
+			    // error callback
+			  });
+				this.notes.push(this.new_note);
+				this.new_note = {note:'',category_id:''};
+			
 		}
 	},
 	filters:{
 		
 			
 		
+	},
+	created: function(){
+		this.$http.get(URL+"/notas")	
+			.then(response => {
+				console.info(response.data)
+				this.notes = response.data;
+			})
 	}
 })

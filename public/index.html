@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<script src="vue.js"></script>
+</head>
+<body id="body">
+	<div class="container">
+		<template v-if="name != '' && gender != ''">
+		<welcome-message :name="name" :gender="gender"></welcome-message>
+		<p>Espero que disfrute tu visita</p>
+	</template>
+	<p v-if="name == '' && gender == ''">Por favor indica tu <span v-if="!name">nombre y </span><span v-if="!gender">genero</span></p>
+	
+	
+	<!-- <h1 v-if="name">Bienvenido, {{name}}</h1> -->
+	<!--<h1 v-show="name">Bienvenido, {{name}}</h1> -->
+	<input type="text" v-model="name" class="form-control">
+	<select class="form-control" v-model="gender" id="">
+		<option value="m">Masculino</option>
+		<option value="f">Femenido</option>
+	</select>
+	
+
+
+
+	<p v-show="name">
+		<button type="submit" class="btn btn-primary">
+			Registrate
+		</button>
+		<button class="btn btn-primary" @click="signUp(true, $event)">
+			Regístrate y sal del sistema
+		</button>
+	</p>
+	</div>
+	<script type="text/template" id="welcome-message"><h1 v-if="gender">{{gender == "m" ? "Bienvenido" : "Bienvenida"}}, {{name}}</h1></script>
+	<script type="text/template" id="years_template">
+		<p>
+			¿Cuantos años de experiencia tienes con {{ tech }}?
+			Respuesta <strong>{{ years }}</strong>
+			<button type="button" :class="{btn: true, 'btn-danger': years > 10}"  @click="add">+</button>
+			<button type="button" v-bind:disabled="years == 0" class="btn" @click="sub"> - </button>
+		</p>
+	</script>
+	<script type="text/javascript">
+	Vue.component('welcome-message',{
+		template: '#welcome-message',
+		props: {
+			gender:{type:String,required:false,default:'m'},
+			name: { type:String, required:true }
+		}
+	});
+	Vue.component('years_exp', {
+		template: '#years_template',
+		methods: {
+			add: function(){
+					this.years++;
+				},
+				sub: function(){
+					//if (years_php > 0) {
+						this.years--;
+					//}
+				}
+		},
+		props:  {
+			years: {type:String, required:true},
+			tech: {type:String,required:true}
+		}
+	})
+		new Vue({
+			el: "#body",
+			data: {
+				name: "",
+				gender: "",
+				years_php: 0,
+				years_js: 0,
+			},
+			methods: {
+				signUp: function(logout, event) {
+					event.preventDefault();
+					alert(this.name + ", Por favor espera mientras te registramos");
+					if (logout) {
+						alert("Saliendo del sistema");
+					}
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>
